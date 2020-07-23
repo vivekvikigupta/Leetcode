@@ -1,24 +1,31 @@
 class Solution:
     def setZeroes(self, matrix: List[List[int]]) -> None:
-        # space complexity of solution is O(no._of_colums)
         r = len(matrix)
         c = len(matrix[0])
-        col_zero = [False] * c
-        # going through every element of matrix and storing the boolean values in col_zero list
-        for row in range(r):
-            for col in range(c):
-                if matrix[row][col] == 0:
-                    col_zero[col] = True
-
-        for row in range(r):
-            # after starting of a row we consider that it does not contain any zero
-            contains_zero = False
-            for col in range(c):
-                if matrix[row][col] == 0:  # if contains zero we mark the row and break
-                    contains_zero = True
-                    break
-            for col in range(c):  # again restarting to visit each element of that row
-                if contains_zero or col_zero[col]:
-                    matrix[row][col] = 0
-
-
+        if r == 0 or c == 0:
+            return
+        f_row_zero = False
+        f_col_zero = False
+        for i in range(r):
+            if matrix[i][0] == 0:
+                f_col_zero = True
+                break
+        for j in range(c):
+            if matrix[0][j] == 0:
+                f_row_zero = True
+                break
+        for i in range(1, r):
+            for j in range(1, c):
+                if matrix[i][j] == 0:
+                    matrix[0][j] = 0
+                    matrix[i][0] = 0
+        for i in range(1, r):
+            for j in range(1, c):
+                if matrix[0][j] == 0 or matrix[i][0] == 0:
+                    matrix[i][j] = 0
+        if f_row_zero:
+            for j in range(c):
+                matrix[0][j] = 0
+        if f_col_zero:
+            for i in range(r):
+                matrix[i][0] = 0
